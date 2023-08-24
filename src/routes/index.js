@@ -6,7 +6,7 @@ const publicRoutes = [
     component: Home
   },
   {
-    path: '/detail',
+    path: '/detail/:name',
     component: Detail
   }
 ]

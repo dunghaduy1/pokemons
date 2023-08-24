@@ -6,12 +6,13 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { POKEMON_QUANTITY } from '~/utils/constant'
 
+const limit = POKEMON_QUANTITY
 export default function CardList() {
   const [pokemons, setPokemons] = useState([])
   const [total, setTotal] = useState()
   const [page, setPage] = useState(1)
-  const limit = POKEMON_QUANTITY
-  const offset = (page - 1 ) * limit
+
+  let countPage = Math.ceil(total / limit)
 
   const handleChange = (event, value) => {
     setPage(value)
@@ -19,7 +20,7 @@ export default function CardList() {
 
   useEffect(() => {
     const getPokemon = async() => {
-      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
+      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1 ) * limit}&limit=${limit}`)
       setTotal(res.data.count)
       res.data.results.forEach(async (item) => {
         const poke = await axios.get(`https://pokeapi.co/api/v2/pokemon/${item.name}`)
@@ -41,7 +42,7 @@ export default function CardList() {
         mb:2
       }}>
         <Stack spacing={2}>
-          <Pagination count={ Math.ceil(total / limit) } size="small" page={page} onChange={handleChange} />
+          <Pagination count={ countPage || 0 } size="small" page={page} onChange={handleChange} />
         </Stack>
 
       </Box>
