@@ -1,0 +1,3 @@
+const POKEMON_QUANTITY = 20
+
+export { POKEMON_QUANTITY }
